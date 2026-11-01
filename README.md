@@ -10,9 +10,9 @@ Duas demonstrações locais, criadas por **Glaucia Lemos**, para explorar como v
 
 ### Alô, TI — do relato ao ticket simulado
 
-[![Prévia acelerada da Alô, TI: cenário simulado, conversa real, correção e confirmação do ticket fictício](docs/media/alo-ti-demo.gif)](docs/media/alo-ti-demo.mp4)
+https://github.com/user-attachments/assets/f53ffaa9-a652-4600-9680-ddf9dd989370
 
-Gravado em **01/11/2026**, com um trecho em **MODO REAL: GPT-Live + API Decisions de verdade, em uma sessão real da OpenAI**. O vídeo começa com aproximadamente **30 segundos do modo Simulado**, usando fixtures, e depois passa ao real. O microfone é um **dispositivo virtual que reproduz falas sintetizadas por TTS; não é uma pessoa falando**. O áudio do assistente é o real capturado da sessão. As respostas do modelo variam entre execuções. O GIF é uma prévia acelerada **8×**, sem áudio; o MP4 tem **1280 × 720**, com áudio.
+Gravado em **01/11/2026**, com um trecho em **MODO REAL: GPT-Live + API Decisions de verdade, em uma sessão real da OpenAI**. O vídeo começa com aproximadamente **30 segundos do modo Simulado**, usando fixtures, e depois passa ao real. O microfone é um **dispositivo virtual que reproduz falas sintetizadas por TTS; não é uma pessoa falando**. O áudio do assistente é o real capturado da sessão. As respostas do modelo variam entre execuções. O vídeo tem **1280 × 720**, com áudio.
 
 Nesta gravação: registrar relato por voz → analisar por voz → Decisions pede esclarecimento, sem sugerir equipe, para revisão humana → corrigir por voz → analisar novamente pelo botão **Analisar com Decisions** → marcar a revisão na tela → confirmar por voz → ticket **simulado `DEMO-0001`**.
 
@@ -20,9 +20,9 @@ Nesta gravação: registrar relato por voz → analisar por voz → Decisions pe
 
 ### Triagem ao vivo — da fala ao quadro de equipes
 
-[![Prévia acelerada da Triagem ao vivo: quatro relatos, cartões por equipe e decisão humana no caso incerto](docs/media/triagem-demo.gif)](docs/media/triagem-demo.mp4)
+https://github.com/user-attachments/assets/cbb9a795-9780-4b19-a611-ebc7c77c6564
 
-Gravado em **01/11/2026 em MODO REAL: GPT-Live + API Decisions de verdade, em uma sessão real da OpenAI**. O microfone é um **dispositivo virtual que reproduz falas sintetizadas por TTS; não é uma pessoa falando**. O áudio do assistente é o real capturado da sessão. As respostas do modelo variam entre execuções. O GIF é uma prévia acelerada **8×**, sem áudio; o MP4 tem **1280 × 720**, com áudio.
+Gravado em **01/11/2026 em MODO REAL: GPT-Live + API Decisions de verdade, em uma sessão real da OpenAI**. O microfone é um **dispositivo virtual que reproduz falas sintetizadas por TTS; não é uma pessoa falando**. O áudio do assistente é o real capturado da sessão. As respostas do modelo variam entre execuções. O vídeo tem **1280 × 720**, com áudio.
 
 São quatro falas. O primeiro cartão foi criado pelo botão **Classificar agora**, porque a delegação por voz não veio; os outros três vieram por voz, com **“Registra”**. Três relatos viram cartões em **Acessos e identidade**, **Aplicações internas** e **Infraestrutura**. “Nada funciona aqui” vai para **Revisão humana**, onde a pessoa escolhe a equipe.
 
