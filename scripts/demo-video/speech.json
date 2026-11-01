@@ -1,0 +1,19 @@
+{
+  "voice": "coral",
+  "model": "gpt-4o-mini-tts",
+  "instructions_alo": "Fale em português do Brasil, em ritmo calmo e claro, como uma pessoa falando com um assistente.",
+  "instructions_triagem": "Fale em português do Brasil, em ritmo calmo e claro, como uma apresentadora.",
+  "alo": [
+    {"id": "a1", "text": "Registra este relato: a rede da sala de reunião cai durante as chamadas. O restante do escritório funciona.", "silence_before_s": 6},
+    {"id": "a2", "text": "Analisa o relato.", "silence_before_s": 20},
+    {"id": "c1", "text": "Corrige: na verdade é o time todo e ninguém consegue trabalhar. Não há alternativa.", "silence_before_s": 22},
+    {"id": "c4", "text": "Analisa de novo.", "silence_before_s": 18},
+    {"id": "a3", "text": "Confirma e abre o ticket.", "silence_before_s": 30, "silence_after_s": 25}
+  ],
+  "triagem": [
+    {"id": "r1", "text": "Três pessoas do financeiro esqueceram a senha do e-mail depois das férias e não conseguem entrar. Registra.", "silence_before_s": 6},
+    {"id": "r2", "text": "O sistema de reembolso mostra erro 500 para todo mundo e ninguém consegue trabalhar. Registra.", "silence_before_s": 20},
+    {"id": "r3", "text": "A VPN da filial cai a cada dez minutos e o financeiro parou. Registra.", "silence_before_s": 20},
+    {"id": "r4", "text": "Nada funciona aqui. Registra.", "silence_before_s": 20, "silence_after_s": 15}
+  ]
+}
