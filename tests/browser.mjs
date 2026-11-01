@@ -9,7 +9,7 @@ await mkdir('test-results',{recursive:true});
 async function visible(locator){await locator.waitFor({state:'visible'});}
 async function enabled(locator,value){assert.equal(await locator.isEnabled(),value);}
 try{
-  await page.goto('http://127.0.0.1:3000',{waitUntil:'networkidle'});
+  await page.goto((process.env.DEMO_BASE_URL ?? 'http://127.0.0.1:3000'),{waitUntil:'networkidle'});
   assert.equal(await page.title(),'Alô, TI · DevDay Exchange Rio');
   assert.equal(await page.getByRole('link',{name:'Alô, TI, início',exact:true}).innerText(),'Alô, TI');
   assert.equal(await page.getByRole('region',{name:'Laboratório Alô, TI',exact:true}).count(),1);
@@ -125,7 +125,7 @@ try{
     }});
     window.__enableVoice=()=>{voices=[{localService:true,lang:'pt-BR',name:'Voz local de teste'}];for(const listener of listeners)listener();};
   });
-  await voicePage.goto('http://127.0.0.1:3000',{waitUntil:'networkidle'});
+  await voicePage.goto((process.env.DEMO_BASE_URL ?? 'http://127.0.0.1:3000'),{waitUntil:'networkidle'});
   await voicePage.getByRole('button',{name:'Som desligado'}).click();
   await voicePage.getByRole('button',{name:'Explorar cenário'}).click();
   await voicePage.getByRole('button',{name:'Analisar relato',exact:true}).click();

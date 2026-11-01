@@ -4,3 +4,49 @@ next-env.d.ts
 AGENTS.md
 test-results/
 playwright-report/
+# Credenciais e configuracao local
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+secrets*.json
+secrets/
+
+# Dados e arquivos operacionais privados
+*.csv
+*.tsv
+private/
+internal/
+operational/
+attendees/
+registrations/
+contacts/
+exports/
+backups/
+*.log
+
+# Dependencias e artefatos locais
+node_modules/
+dist/
+build/
+coverage/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Portal: build outputs and local configuration
+portal/node_modules/
+portal/.astro/
+portal/dist/
+portal/src/content/docs/
+portal/src/generated/
+portal/test-results/
+portal/.env
+portal/.env.*
+!portal/.env.example
+portal/firebase/*-debug.log
+portal/firebase/.firebase/
+portal/firebase/firestore.owner.rules

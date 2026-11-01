@@ -57,7 +57,7 @@ async function skipToConversation(mode,nextControl){
 }
 
 try{
- await page.goto('http://127.0.0.1:3000',{waitUntil:'networkidle'});
+ await page.goto((process.env.DEMO_BASE_URL ?? 'http://127.0.0.1:3000'),{waitUntil:'networkidle'});
  await skipToConversation('simulated',page.getByRole('button',{name:'Explorar cenário',exact:true}));
  await page.getByRole('button',{name:'OpenAI ao vivo'}).click();
  await page.getByText('Ao vivo desativado no servidor.',{exact:false}).waitFor();

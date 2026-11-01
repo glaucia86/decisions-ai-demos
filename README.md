@@ -1,39 +1,34 @@
-# Triagem ao vivo e Alô, TI · demos de Decisions
+# Decisions AI Demos — Alô, TI + Triagem
 
-Aplicação Next.js, TypeScript, Tailwind CSS 4 e Lucide com duas páginas:
+[![CI](https://github.com/glaucia86/decisions-ai-demos/actions/workflows/ci.yml/badge.svg)](https://github.com/glaucia86/decisions-ai-demos/actions/workflows/ci.yml) ![Node](https://img.shields.io/badge/Node-24.12–24.21-339933) ![Next.js](https://img.shields.io/badge/Next.js-16.4.3-black) [![MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-- **`/triagem` · Triagem ao vivo:** demo de voz do LAB Decisions. GPT-Live escuta, a aplicação envia cada relato ao Decisions e um cartão entra num quadro por equipe. Casos incertos vão para **Revisão humana**. Fica desativada até a configuração segura da chave.
-- **`/` · Alô, TI:** service desk fictício usado nos blocos do Codex CLI e Cloud. O modo padrão reproduz fixtures e não chama qualquer API.
+[Português](README.md) · [English](README.en.md) · [Español](README.es.md)
 
-## Estado real
+Duas experiências de estudo sobre decisões estruturadas, voz e revisão humana, criadas por **Glaucia Lemos** para o DevDay Exchange Community Rio 2026. Este é o repositório independente para sua evolução. Interface em português; aplicação local de demonstração, sem prontidão declarada para SaaS ou produção.
 
-- Testes de domínio, contratos e proteção de fala; consulte os resultados da CI no SHA atual
-- Instalação, TypeScript e build aprovados no GitHub Actions
-- Fluxo mock testado em Chromium: revisão humana, correção, reset, texto livre, erro e nova tentativa
-- Capturas desktop e celular inspecionadas; sem corte, sobreposição ou overflow horizontal observado
-- Voz: leitura opcional com voz local em português do dispositivo; não é áudio OpenAI ou transcrição real
-- GPT-Live + Decisions: Triagem ao vivo e aba ao vivo da Alô, TI implementadas; testes automatizados usam fixtures
-- Glaucia informou um ensaio bem-sucedido da nova Triagem em 8 de outubro de 2026. O registro detalhado de commit, ambiente e casos percorridos ainda deve ser completado; isso não valida todos os sistemas nem todos os estados
-- A revisão de documentação de 9 de outubro não executou API paga, microfone ou áudio reais
+## Sumário
 
-O [registro de validação](../../docs/validacao.md) distingue cada estágio.
+- [Experiências](#experiências)
+- [Começar no modo simulado](#começar-no-modo-simulado)
+- [Arquitetura](#arquitetura)
+- [Live opcional e segurança](#live-opcional-e-segurança)
+- [Testes e evidências](#testes-e-evidências)
+- [Origem e licença](#origem-e-licença)
 
-## Requisitos e versões
+## Experiências
 
-Node.js de 24.12.0 a 24.21.0. O arquivo `.nvmrc` recomenda 24.21.0, a mesma versão da CI; a faixa aceita está em `engines`. O Next.js 16 pede Node 20.9.0 e os testes `.mts` só carregam a partir do 22.18; a faixa comum com o portal começa em 24.12.0, porque o Firebase de lá pede essa versão. As dependências diretas e transitivas estão fixadas no package.json e package-lock.json. Versões principais: Next.js 16.4.1, React 19.3.1, Tailwind CSS 4.3.3, TypeScript 5.9.3 e Lucide 0.468.0. `engine-strict` recusa um Node fora dessa faixa na instalação.
+| Aplicação | Rota | Experiência |
+| --- | --- | --- |
+| **Alô, TI** | `/` | Service desk fictício: relato, análise, correção, revisão e ticket simulado. Fixtures por padrão; nenhuma API. |
+| **Triagem ao vivo** | `/triagem` | Quadro de equipes e revisão humana, com fila e restauração local. Voz exige ativação explícita; testes de navegador simulam o transporte. |
 
-## Testar o domínio sem instalar pacotes
+## Começar no modo simulado
 
-```bash
-cd apps/decisions
-node --test tests/*.test.mts
-```
+Use Node.js **24.12.0 a 24.21.0** (`.nvmrc`: 24.21.0; `engine-strict` ativo). Dependências fixadas no lockfile. A instalação precisa de internet; depois o mock funciona sem conta, chave ou microfone. No PowerShell, use `npm.cmd`. Os comandos partem da raiz deste repositório.
 
-## Instalar e executar a interface
-
-Na pasta apps/decisions:
-
-```bash
+```sh
+git clone https://github.com/glaucia86/decisions-ai-demos.git
+cd decisions-ai-demos
 npm ci --ignore-scripts
 npm run typecheck
 npm test
@@ -41,54 +36,60 @@ npm run build
 npm start
 ```
 
-Abra http://127.0.0.1:3000/triagem para a Triagem e http://127.0.0.1:3000 para a Alô, TI. No PowerShell, use `npm.cmd` nos comandos acima. Se a porta estiver ocupada, use `npm start -- -p 3002` e abra a rota na porta 3002. A aplicação escuta somente em 127.0.0.1. Dependências são baixadas na instalação; depois, o mock funciona sem uma conta OpenAI. A primeira preparação exige acesso ao registro npm. No palco, **Modo palco** aumenta o texto da equipe. O rodapé deixa registrado que a aba Simulado usa respostas preparadas.
+Abra http://127.0.0.1:3000/ e escolha **Explorar cenário**. A Triagem está em http://127.0.0.1:3000/triagem. Porta ocupada: `npm start -- -p 3002`. Para editar, use `npm run dev`. [Prática guiada](docs/primeiros-passos.md).
 
-`npm run dev` serve para editar a interface. Ele reescreve `next-env.d.ts`, que o Next gera e o Git ignora. O comando `npm run typecheck` roda `next typegen` antes do `tsc`, então um checkout limpo continua passando. Não exponha o servidor como serviço público sem um desenho de segurança apropriado.
+## Arquitetura
 
-## Teste de navegador
+GPT-Live conduz a conversa por voz; a API Decisions avalia perguntas estruturadas. Na Triagem, a delegação para o cliente encaminha o relato pela aplicação ao Decisions com `gpt-6-luna`: `predicate` avalia contexto, `choice` escolhe a equipe e `score` avalia impacto. Casos incertos exigem revisão humana. O modo Simulado da Alô, TI usa dados preparados e voz opcional do dispositivo. A aba live da Alô, TI usa delegação Responses e o mesmo redutor dos botões. Não é a integração nativa Decisions descrita no guia atual.
 
-Com as dependências instaladas:
-
-```bash
-npx playwright install chromium
-npm run build
-npm start
+```mermaid
+flowchart LR
+  U[Browser] --> A[Alô TI /]
+  U --> T[Triagem /triagem]
+  A --> M[Mock fixtures + domain reducer]
+  A -. optional live .-> L[Shared LiveBrowser]
+  T -. optional live .-> L
+  L --> G[Local /api/live: token + same origin + HTTP loopback]
+  G --> V[GPT-Live /v1/live/sessions]
+  G --> D[Decisions /v1/decisions]
+  D --> R[Contract validation + human review]
 ```
 
-Em outro terminal, na mesma pasta, execute `node tests/browser.mjs`. Em Linux, as bibliotecas do Chromium podem exigir a etapa oficial `npx playwright install --with-deps chromium`. Revise essa instalação antes de executá-la na sua máquina.
+[GPT-Live](https://developers.openai.com/api/docs/guides/live) · [Decisions](https://developers.openai.com/api/docs/guides/decisions) · [Voice + Decisions](https://developers.openai.com/api/docs/guides/decisions-voice) · [Client delegation](https://developers.openai.com/api/docs/guides/live-delegation?delegation-mode=client)
 
-As capturas ficam em test-results. O teste usa uma simulação da API de voz do navegador para verificar carregamento tardio e invalidação de fala; isso não comprova saída real de áudio.
+## Live opcional e segurança
 
-## Fluxo opcional da Alô TI
+Live desativado por padrão (`MESA_LIVE_ENABLED=false`). Abrir uma aba não inicia sessão nem pede microfone. Antes de habilitar, confira acesso aos modelos, documentação e custo da conta. Siga o [guia local](docs/integracao-live.md): copie `.env.example` para `.env.local` sem sobrescrever configurações existentes; mantenha a chave apenas no servidor e use um token local distinto. Nunca envie segredos em chat, screenshots ou Git, nem use `NEXT_PUBLIC` para a chave.
 
-Escolha um cenário → analise o relato → corrija o texto ou simule uma correção → analise novamente → revise os campos → marque a revisão → crie o ticket simulado. Recomeçar limpa o estado em memória e interrompe a voz local.
+As proteções exigem **HTTP loopback, mesma origem e token local**. Não exponha por túnel, proxy ou hospedagem pública. Limites em memória não são teto financeiro. Retomar abre nova sessão; silenciar áudio não encerra sessão. Relatos fictícios do quadro/fila podem ficar no localStorage. Confira encerramento remoto antes de fechar a página.
 
-A espera de 900 ms é parte do mock, não uma medida de latência de API. Probabilidades são fixtures. **Corrigir o relato** abre o texto atual para edição; a nova análise usa esse texto. **Simular uma correção** insere o exemplo pronto do palco. Texto livre fica na conversa, com uma explicação de que o simulado não o encaminha; nunca vira uma sugestão pronta disfarçada de análise.
+## Testes e evidências
 
-## Triagem ao vivo (`/triagem`)
+Capturas reais do navegador com dados fictícios; não comprovam voz ou inferência reais. [Registro de validação](docs/validacao.md) distingue resultados locais e CI. No Linux, Chromium pode precisar de `npx playwright install --with-deps chromium`. A CI executa testes, tipos, build, origem local e fixtures de navegador, sem chave paga.
 
-A sessão GPT-Live usa **delegação para o cliente**: não há modelo de backend chamado a cada fala. Quando a apresentadora diz “registra”, GPT-Live delega; a página pega a fala ouvida desde o último cartão, retira o comando falado e envia o texto ao servidor, que faz **uma** chamada ao Decisions (`gpt-6-luna`). O resultado volta como cartão e como fala curta (`session.commentary.append`); um resumo do quadro segue como contexto (`session.thinking.append`) para a voz responder “qual o padrão?” sem nova chamada.
+```sh
+node --test tests/*.test.mts
+node scripts/replay-voice-commands.mts
+node scripts/check-doc-links.mjs
+npm run typecheck
+npm run build
+node --test tests/live-origin.mjs
+npx playwright install chromium
+# terminal 1
+npm start
+# terminal 2
+node tests/browser.mjs
+npm run test:triage-browser
+```
 
-- Equipe com contexto abaixo de 0,8 ou confiança abaixo de 0,7 vira **Revisão humana**; só esses cartões aceitam a escolha de equipe na tela
-- **Classificar agora** é a reserva se a voz não delegar
-- O contador mostra tentativas de classificação, inclusive falhas; não é fatura nem quantidade de cartões. Limites variam por conta; confira o aviso e a plataforma
-- **Evidência da última decisão** mostra o objeto interpretado e validado pela aplicação, não a resposta bruta completa da API
-- Regras do quadro em `src/domain/triage.ts`, testadas em `tests/triage.test.mts`
+![Alô, TI — SIMULADO](docs/media/alo-ti.png)
 
-A Triagem tenta salvar cartões, fila e contador no navegador. Recarregar pode restaurá-los. **Pausar** e **Encerrar triagem** pedem o fechamento da sessão; **Retomar triagem** cria outra sessão preservando o quadro. Para limpar tudo, confirme o fechamento e use **Nova triagem**, aprovando a exclusão. A última evidência e o texto somente em **OUVINDO** não são restaurados. Se só restou um contador de falhas, sem cartões/fila, o botão de nova triagem não aparece nesta versão.
+**Triagem: SIMULADO / browser test fixture — sem sessão real / no real session / sin sesión real.**
 
-Em 429 de classificação, o relato pode ir para **Na fila** sem virar cartão. **Classificar fila** só funciona com sessão ativa e para na primeira falha. Há capacidade para 20 relatos; acrescentar mais pode descartar os antigos. Não use essa fila como arquivo permanente. O [LAB completo](../../labs/02-decisions-typescript/README.md) ensina primeira execução, conta/chave, orçamento, fila, reset e caminho offline.
+![Triagem — SIMULADO / browser fixtures](docs/media/triagem.png)
 
-## OpenAI ao vivo da Alô TI para estudo adicional
+[Vídeo / Video — SIMULADO](docs/media/mock-demo.webm)
 
-A aba OpenAI ao vivo da Alô, TI conecta microfone e áudio por WebRTC. GPT-Live pede uma função (`registrar_relato`, `corrigir_relato`, `analisar`, `confirmar_ticket`, `recomecar`); o navegador executa o mesmo redutor dos botões e devolve o resultado. A transcrição não altera o relato sozinha. `analisar` consulta Decisions no servidor. O ticket simulado só nasce com confirmação explícita, por voz ou pelo botão. Depois do ticket, a tela mostra um monitoramento calculado dos registros de demonstração da semana; com a sessão ativa, essa frase é falada uma vez por `session.commentary.append`, depois de uma pausa.
+## Origem e licença
 
-Sem microfone ou sem API, a aba Simulado repete o fluxo e mostra a mesma frase na tela. O ensaio offline, sem chave, é `node scripts/replay-voice-commands.mts` nesta pasta.
-
-O live fica desativado por padrão. Abrir a aba não pede microfone nem inicia inferência. A ativação exige configuração segura, acesso aos modelos e autorização de custo. A rota aceita apenas loopback HTTP, mesma origem e um código de acesso da demo distinto da chave OpenAI.
-
-O [guia técnico local](../../docs/integracao-live.md) distingue essa trilha adicional da Triagem. Para a demonstração de Decisions do evento, siga o LAB e a rota `/triagem`; os controles desta aba não são os controles da Triagem.
-
-Testes interceptam transporte, eventos e respostas. Eles não comprovam reconhecimento de fala, acesso da conta, latência, decisões de modelo, áudio audível ou consumo real.
-
-[LAB](../../labs/02-decisions-typescript/README.md) · [Guia da apresentadora](../../docs/guia-apresentadora.md#decisions-api)
+Extraído integralmente de `apps/decisions` no [repositório do evento](https://github.com/glaucia86/devday-exchange-community-rio-2026/tree/ab074cc44ec36cd20ce4d6b593a4cd152e41b5f7/apps/decisions). Histórico filtrado preservado: **42 commits**. [Proveniência, commit e roteiros originais](docs/proveniencia.md). [MIT](LICENSE) — Copyright (c) 2026 Glaucia Lemos. O material histórico do evento permanece disponível.
