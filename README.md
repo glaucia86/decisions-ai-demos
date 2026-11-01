@@ -1,3 +1,4 @@
+<a id="topo"></a>
 # Decisions AI Demos — Alô, TI + Triagem
 
 [![CI](https://github.com/glaucia86/decisions-ai-demos/actions/workflows/ci.yml/badge.svg)](https://github.com/glaucia86/decisions-ai-demos/actions/workflows/ci.yml) ![Node](https://img.shields.io/badge/Node-24.12–24.21-339933) ![Next.js](https://img.shields.io/badge/Next.js-16.4.3-black) [![MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
@@ -44,19 +45,42 @@ Os [roteiros HTML de Alô, TI e Triagem](docs/demo-scripts/index.html) incluem f
 
 ## Sumário
 
+- [Veja as demonstrações](#veja-as-demonstrações)
+  - [Alô, TI — do relato ao ticket simulado](#alô-ti--do-relato-ao-ticket-simulado)
+  - [Triagem ao vivo — da fala ao quadro de equipes](#triagem-ao-vivo--da-fala-ao-quadro-de-equipes)
+  - [Capturas do modo simulado](#capturas-do-modo-simulado)
 - [O que é o projeto](#o-que-é-o-projeto)
+  - [Alô, TI](#alô-ti)
+  - [Triagem ao vivo](#triagem-ao-vivo)
+  - [Escopo](#escopo)
 - [Por que existe](#por-que-existe)
 - [Começar no modo simulado](#começar-no-modo-simulado)
 - [Configuração](#configuração)
 - [Modos de execução](#modos-de-execução)
+  - [Habilitar o real](#habilitar-o-real)
 - [Arquitetura](#arquitetura)
+  - [Alô, TI real: sequência](#alô-ti-real-sequência)
+  - [Triagem real: sequência](#triagem-real-sequência)
+  - [Estados e revisão humana](#estados-e-revisão-humana)
 - [Decisões de arquitetura](#decisões-de-arquitetura)
+  - [1. App Router com domínio separado](#1-app-router-com-domínio-separado)
+  - [2. Fixtures por padrão; live por escolha explícita](#2-fixtures-por-padrão-live-por-escolha-explícita)
+  - [3. Chave no servidor e acesso local restrito](#3-chave-no-servidor-e-acesso-local-restrito)
+  - [4. Responses na Alô, TI; client na Triagem](#4-responses-na-alô-ti-client-na-triagem)
+  - [5. Revisão como regra de domínio](#5-revisão-como-regra-de-domínio)
+  - [6. Sideband e limites em memória](#6-sideband-e-limites-em-memória)
+  - [7. Persistência local da Triagem](#7-persistência-local-da-triagem)
+  - [8. Testes com fixtures e sem API paga](#8-testes-com-fixtures-e-sem-api-paga)
 - [Estrutura do projeto](#estrutura-do-projeto)
 - [Testes e evidências](#testes-e-evidências)
 - [Solução de problemas](#solução-de-problemas)
 - [Segurança e limites](#segurança-e-limites)
+  - [Credenciais e dados](#credenciais-e-dados)
+  - [Menor privilégio e prompt injection](#menor-privilégio-e-prompt-injection)
+  - [Encerramento e consumo](#encerramento-e-consumo)
 - [Contribuindo](#contribuindo)
 - [Origem e licença](#origem-e-licença)
+- [Sobre mim](#sobre-mim)
 
 ## O que é o projeto
 
@@ -551,3 +575,28 @@ Extraído integralmente de `apps/decisions` no [repositório do DevDay Exchange 
 Distribuído sob a [licença MIT](LICENSE).
 
 Copyright (c) 2026 Glaucia Lemos.
+
+---
+
+<a id="sobre-mim"></a>
+## 👩🏽‍💻 Sobre mim
+
+<div align="center">
+<a href="https://github.com/glaucia86"><img src="https://avatars.githubusercontent.com/u/1631477?v=4" width="170" height="170" alt="Glaucia Lemos"></a>
+
+<h3>Glaucia Lemos</h3>
+<p><strong>Principal Software Engineer · Educadora · Criadora de conteúdo · Codex Ambassador</strong></p>
+<p>Sou engenheira de software e compartilho conhecimento sobre JavaScript, TypeScript,<br>Node.js, Cloud e Inteligência Artificial. Conecto teoria e prática em conteúdos,<br>comunidades de tecnologia e projetos open source.</p>
+
+<p>
+<a href="https://www.youtube.com/user/l32759"><img alt="YouTube" src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white"></a>
+<a href="https://www.linkedin.com/in/glaucialemos/"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge"></a>
+<a href="https://x.com/glaucia_lemos86"><img alt="X" src="https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white"></a>
+</p>
+<p>
+<a href="https://github.com/glaucia86"><img alt="GitHub" src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"></a>
+<a href="https://www.twitch.tv/glaucia_lemos86"><img alt="Twitch" src="https://img.shields.io/badge/Twitch-9146FF?style=for-the-badge&logo=twitch&logoColor=white"></a>
+<a href="https://dev.to/glaucia86"><img alt="DEV Community" src="https://img.shields.io/badge/DEV_Community-0A0A0A?style=for-the-badge&logo=devdotto&logoColor=white"></a>
+</p>
+<p><a href="#topo">↑ Voltar ao topo</a></p>
+</div>
