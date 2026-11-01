@@ -14,9 +14,11 @@ A CI usa transporte simulado e respostas de teste. Glaucia informou um ensaio be
 
 O modo padrão permanece offline. Abrir a página ou a aba ao vivo não inicia uma sessão paga nem solicita o microfone.
 
+> Atualização documental de 01/11/2026: o guia Voice + Decisions também descreve integração nativa. Esta aplicação mantém delegação custom/client e chama Decisions no servidor; não foi migrada para delegação nativa.
+
 ## Triagem ao vivo: delegação para o cliente
 
-A Triagem usa `delegation: { type: "client" }`, como no guia [Connect voice to Decisions](https://developers.openai.com/api/docs/guides/decisions-voice). GPT-Live não chama um modelo de backend a cada fala. Quando a apresentadora diz “registra”, chega `session.delegation.created`; a página pega a fala ouvida desde o último cartão, envia ao servidor e o servidor faz **uma** chamada a `/v1/decisions`. O resultado volta à voz com `session.commentary.append` e o mesmo `delegation_id`; um resumo do quadro segue por `session.thinking.append`.
+A Triagem usa `delegation: { type: "client" }`, como no guia [delegação custom/client](https://developers.openai.com/api/docs/guides/live-delegation?delegation-mode=client). GPT-Live não chama um modelo de backend a cada fala. Quando a apresentadora diz “registra”, chega `session.delegation.created`; a página pega a fala ouvida desde o último cartão, envia ao servidor e o servidor faz **uma** chamada a `/v1/decisions`. O resultado volta à voz com `session.commentary.append` e o mesmo `delegation_id`; um resumo do quadro segue por `session.thinking.append`.
 
 - **Custo por execução:** uma sessão `gpt-live-1` e cerca de uma chamada `gpt-6-luna` por relato. Seis relatos usam cerca de seis requisições
 - **Limites da conta:** confira os valores reais em Settings → Limits. A quota da conta da apresentadora não é uma promessa para outras contas. Em 429 de classificação, o relato pode ir para **Na fila**, sem cartão; o aviso pode incluir tempo de espera. Falta de saldo, limite de gasto e rate limit exigem diagnósticos diferentes
