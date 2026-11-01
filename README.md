@@ -388,35 +388,67 @@ Os registros abaixo sintetizam decisões observáveis no código e nos guias. As
 
 ### 1. App Router com domínio separado
 
-**Contexto:** as demos combinam UI, uma rota de servidor e regras de revisão verificáveis. **Decisão:** usar Next.js App Router e manter regras em funções e redutores de `src/domain`. **Alternativas:** regras nos componentes ou API em outro serviço. **Trade-offs:** o domínio pode ser testado sem navegador; microfone, áudio e ciclo de sessão exigem testes próprios. Evidências: [rotas](src/app), [domínio](src/domain), [dependências](package.json) e [configuração do Next.js](next.config.mjs), que fixa a raiz do Turbopack neste projeto.
+- **Contexto:** as demos combinam UI, uma rota de servidor e regras de revisão verificáveis.
+- **Decisão:** usar Next.js App Router e manter regras em funções e redutores de `src/domain`.
+- **Alternativas:** regras nos componentes ou API em outro serviço.
+- **Trade-offs:** o domínio pode ser testado sem navegador; microfone, áudio e ciclo de sessão exigem testes próprios.
+- **Evidências:** [rotas](src/app), [domínio](src/domain), [dependências](package.json) e [configuração do Next.js](next.config.mjs), que fixa a raiz do Turbopack neste projeto.
 
 ### 2. Fixtures por padrão; live por escolha explícita
 
-**Contexto:** o percurso precisa funcionar sem credenciais e sem iniciar consumo ao abrir a página. **Decisão:** Alô, TI começa em Simulado; live exige configuração, código local, consentimento e clique para iniciar. **Alternativas:** abrir sessão automaticamente ou exigir API para todos os exemplos. **Trade-offs:** as fixtures são reproduzíveis, mas só cobrem relatos preparados e não medem o modelo; a Triagem offline é exercitada por testes. Evidências: [Alô, TI](src/components/service-desk.tsx), [Triagem](src/components/triage-board.tsx) e [.env.example](.env.example).
+- **Contexto:** o percurso precisa funcionar sem credenciais e sem iniciar consumo ao abrir a página. 
+- **Decisão:** Alô, TI começa em Simulado; live exige configuração, código local, consentimento e clique para iniciar.
+- **Alternativas:** abrir sessão automaticamente ou exigir API para todos os exemplos.
+- **Trade-offs:** as fixtures são reproduzíveis, mas só cobrem relatos preparados e não medem o modelo; a Triagem offline é exercitada por testes.
+- **Evidências:** [Alô, TI](src/components/service-desk.tsx), [Triagem](src/components/triage-board.tsx) e [.env.example](.env.example).
 
 ### 3. Chave no servidor e acesso local restrito
 
-**Contexto:** o navegador precisa negociar uma sessão e pedir análises sem receber a chave do projeto. **Decisão:** centralizar HTTP em `/api/live`, validar loopback HTTP, mesma origem e token local; usar WebRTC direto para áudio/eventos. **Alternativas:** chave no cliente ou serviço público com outra arquitetura de autenticação. **Trade-offs:** mantém a chave no servidor, mas restringe o uso ao computador local e não oferece login empresarial. Evidências: [handler](src/server/live-handler.ts) e [cliente](src/client/live-browser.ts).
+- **Contexto:** o navegador precisa negociar uma sessão e pedir análises sem receber a chave do projeto. 
+- **Decisão:** centralizar HTTP em `/api/live`, validar loopback HTTP, mesma origem e token local; usar WebRTC direto para áudio/eventos.
+- **Alternativas:** chave no cliente ou serviço público com outra arquitetura de autenticação.
+- **Trade-offs:** mantém a chave no servidor, mas restringe o uso ao computador local e não oferece login empresarial.
+- **Evidências:** [handler](src/server/live-handler.ts) e [cliente](src/client/live-browser.ts).
 
 ### 4. Responses na Alô, TI; client na Triagem
 
-**Contexto:** Alô, TI precisa de funções com parâmetros; Triagem precisa classificar o relato acumulado quando houver delegação. **Decisão:** delegação `responses` com cinco funções na Alô, TI; `client` na Triagem, com Decisions chamado pelo servidor. **Alternativas:** integração nativa Decisions mencionada no guia, não implementada aqui. **Trade-offs:** permite aplicar contratos e regras locais, mas exige coordenar eventos, resultados de função e falhas de delegação; os botões oferecem uma saída manual. Evidências: [sessões](src/domain/live-session.ts), [turnos](src/domain/live-turn.ts) e [guia live](docs/integracao-live.md).
+- **Contexto:** Alô, TI precisa de funções com parâmetros; Triagem precisa classificar o relato acumulado quando houver delegação. 
+- **Decisão:** delegação `responses` com cinco funções na Alô, TI; `client` na Triagem, com Decisions chamado pelo servidor.
+- **Alternativas:** integração nativa Decisions mencionada no guia, não implementada aqui.
+- **Trade-offs:** permite aplicar contratos e regras locais, mas exige coordenar eventos, resultados de função e falhas de delegação; os botões oferecem uma saída manual.
+- **Evidências:** [sessões](src/domain/live-session.ts), [turnos](src/domain/live-turn.ts) e [guia live](docs/integracao-live.md).
 
 ### 5. Revisão como regra de domínio
 
-**Contexto:** uma sugestão pode ter contexto insuficiente ou baixa confiança. **Decisão:** contrato fechado e limiares de 0,8/0,7; casos incertos vão para `human`. Na Alô, TI, criação exige confirmação; na Triagem, casos incertos exigem escolha humana da equipe. **Alternativas:** encaminhar sempre pela primeira escolha ou tratar impacto como autorização. **Trade-offs:** exige esclarecimento ou intervenção, e os limiares didáticos não prometem acurácia. Evidências: [contrato](src/domain/live-contract.ts), [canCreate](src/domain/service-desk.ts) e [resolveReview](src/domain/triage.ts).
+- **Contexto:** uma sugestão pode ter contexto insuficiente ou baixa confiança.
+- **Decisão:** contrato fechado e limiares de 0,8/0,7; casos incertos vão para `human`. Na Alô, TI, criação exige confirmação; na Triagem, casos incertos exigem escolha humana da equipe.
+- **Alternativas:** encaminhar sempre pela primeira escolha ou tratar impacto como autorização.
+- **Trade-offs:** exige esclarecimento ou intervenção, e os limiares didáticos não prometem acurácia.
+- Evidências: [contrato](src/domain/live-contract.ts), [canCreate](src/domain/service-desk.ts) e [resolveReview](src/domain/triage.ts).
 
 ### 6. Sideband e limites em memória
 
-**Contexto:** soltar o microfone não prova que uma sessão paga terminou. **Decisão:** abrir um WebSocket de controle no servidor, pedir `session.close` e esperar confirmação; bloquear novos inícios quando a finalização é incerta. O handler permite **uma sessão por vez**, **até três inícios e 30 análises por janela de dez minutos**, e pede encerramento após **600 segundos**. **Alternativas:** depender apenas da aba ou usar um serviço durável de controle. **Trade-offs:** há tentativa limitada de reconexão para fechar a mesma sessão, mas queda de processo/rede pode impedir confirmação; reiniciar apaga contadores. Não é teto financeiro. Evidências: [handler](src/server/live-handler.ts) e [guard](src/server/live-guard.ts).
+- **Contexto:** soltar o microfone não prova que uma sessão paga terminou.
+- **Decisão:** abrir um WebSocket de controle no servidor, pedir `session.close` e esperar confirmação; bloquear novos inícios quando a finalização é incerta. O handler permite **uma sessão por vez**, **até três inícios e 30 análises por janela de dez minutos**, e pede encerramento após **600 segundos**.
+- **Alternativas:** depender apenas da aba ou usar um serviço durável de controle.
+- **Trade-offs:** há tentativa limitada de reconexão para fechar a mesma sessão, mas queda de processo/rede pode impedir confirmação; reiniciar apaga contadores. Não é teto financeiro.
+- Evidências: [handler](src/server/live-handler.ts) e [guard](src/server/live-guard.ts).
 
 ### 7. Persistência local da Triagem
 
-**Contexto:** pausar ou recarregar não deve necessariamente apagar a demonstração. **Decisão:** salvar cartões, fila e contador em `localStorage`, validar a restauração e oferecer reset confirmado. **Alternativas:** só memória ou armazenamento no servidor. **Trade-offs:** dispensa banco e conta, mas não sincroniza dispositivos, não é backup e pode falhar; a interface avisa quando não conseguiu salvar. A fila é limitada a 20 relatos; a restauração mantém até 200 cartões. Evidências: [persistência do quadro](src/components/triage-board.tsx) e [restauração](src/domain/triage.ts).
+- **Contexto:** pausar ou recarregar não deve necessariamente apagar a demonstração.
+- **Decisão:** salvar cartões, fila e contador em `localStorage`, validar a restauração e oferecer reset confirmado.
+- **Alternativas:** só memória ou armazenamento no servidor.
+- **Trade-offs:** dispensa banco e conta, mas não sincroniza dispositivos, não é backup e pode falhar; a interface avisa quando não conseguiu salvar. A fila é limitada a 20 relatos; a restauração mantém até 200 cartões.
+- Evidências: [persistência do quadro](src/components/triage-board.tsx) e [restauração](src/domain/triage.ts).
 
 ### 8. Testes com fixtures e sem API paga
 
-**Contexto:** verificar regras e falhas não deve depender de disponibilidade do modelo. **Decisão:** injetar transporte/sideband nos testes do servidor e substituir WebRTC/API nos testes do navegador; usar servidores locais nas verificações de origem e HTML. **Alternativas:** depender de sessões reais na CI. **Trade-offs:** cobre contratos, estados e interações de forma controlada, mas não comprova reconhecimento de fala, áudio real, custo ou latência. Evidências: [testes live](tests/live.test.mts), [fixtures do navegador](tests/live-browser.mjs) e [CI](.github/workflows/ci.yml).
+- **Contexto:** verificar regras e falhas não deve depender de disponibilidade do modelo.
+- **Decisão:** injetar transporte/sideband nos testes do servidor e substituir WebRTC/API nos testes do navegador; usar servidores locais nas verificações de origem e HTML.
+- **Alternativas:** depender de sessões reais na CI.
+- **Trade-offs:** cobre contratos, estados e interações de forma controlada, mas não comprova reconhecimento de fala, áudio real, custo ou latência.
+- Evidências: [testes live](tests/live.test.mts), [fixtures do navegador](tests/live-browser.mjs) e [CI](.github/workflows/ci.yml).
 
 ## Estrutura do projeto
 
