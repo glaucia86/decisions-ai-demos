@@ -40,6 +40,8 @@ jobs:
         run: node --test tests/live-origin.mjs
       - name: Preparar Chromium
         run: npx playwright install --with-deps chromium
+      - name: Validar roteiros HTML offline
+        run: node --test tests/demo-scripts.mjs
       - name: Verificar interação e capturar telas
         run: node scripts/verify-browser.mjs
       - name: Guardar telas da aplicação fictícia

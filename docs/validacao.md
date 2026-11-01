@@ -30,3 +30,11 @@ Não foram testados reconhecimento de fala, áudio audível, acesso de conta, co
 Os guias oficiais GPT-Live, Decisions e delegação foram consultados em 1 de novembro de 2026. A documentação atual diferencia integração nativa Decisions de delegação custom/client usada pela Triagem; disponibilidade documental não valida acesso de uma conta. Fontes: [GPT-Live](https://developers.openai.com/api/docs/guides/live), [Decisions](https://developers.openai.com/api/docs/guides/decisions), [voz com Decisions](https://developers.openai.com/api/docs/guides/decisions-voice).
 
 Revisão independente por GPT-6 Astra (medium): nenhum bloqueador material; corrigidos caminho residual da pasta e link de proveniência. A origem da gravação é normalizada para aceitar uma barra final na URL.
+
+## Recuperação dos roteiros HTML
+
+Os dois originais de 24/10 foram recuperados oficialmente da Library em Linux e integrados via Git. Seus hashes SHA-256 e tamanhos foram conferidos contra os bytes originais; `.gitattributes` preserva finais de linha. [Originais, adaptações e hashes](demo-scripts/README.md).
+
+A suíte `node --test tests/demo-scripts.mjs` passou localmente nos dois originais e nas duas adaptações: links/âncoras locais, copiar todos os blocos, fallback de clipboard, modo palco e restauração, checklist, impressão, links recíprocos e ausência de overflow horizontal em 390 px. Renders desktop/mobile foram inspecionados. O teste normaliza CRLF do clipboard Windows e verifica seu conteúdo, evitando falso positivo de um botão anteriormente marcado como copiado.
+
+Revisão independente adicional pelo agente `/root/review_extraction`, GPT-6 Astra medium: nenhum bloqueador material, hashes confirmados; sugestão de robustez dos testes de clipboard incorporada. JavaScript dos controles permanece igual ao original. Nenhuma alteração no código de produção da aplicação, API paga ou microfone. Esta suíte também integra a CI.

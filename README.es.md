@@ -90,6 +90,8 @@ npm run test:triage-browser
 
 [Vídeo / Video — SIMULADO](docs/media/mock-demo.webm)
 
+[Guiones HTML adaptados: Alô, TI y Triagem](docs/demo-scripts/index.html) — notas en portugués, modo escenario, copiar y checklist; [originales y cambios](docs/demo-scripts/README.md). Descarga el repositorio y abre el HTML localmente; GitHub muestra el código fuente.
+
 ## Origen y licencia
 
 Extraído íntegramente de `apps/decisions` del [repositorio del evento](https://github.com/glaucia86/devday-exchange-community-rio-2026/tree/ab074cc44ec36cd20ce4d6b593a4cd152e41b5f7/apps/decisions), conservando **42 commits filtrados**. [Procedencia, commit y guiones originales](docs/proveniencia.md). [MIT](LICENSE) — Copyright (c) 2026 Glaucia Lemos. Se conservan los materiales históricos del evento.

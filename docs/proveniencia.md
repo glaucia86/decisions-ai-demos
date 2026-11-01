@@ -15,4 +15,4 @@ Guias adaptados: [integração live](https://github.com/glaucia86/devday-exchang
 
 Nenhum roteiro HTML foi encontrado na árvore desse commit nem no histórico público acessível pesquisado com `git log --all -- '*.html'`. Não foi criado um falso original. Arquivos locais não versionados não foram pesquisados.
 
-Os HTMLs originais `roteiro-demo-alo-ti.html` (36.981 bytes) e `roteiro-demo-triagem.html` (37.032 bytes), de 24/10/2026, foram posteriormente identificados na Library da autora. Não estão incluídos nesta extração: o helper oficial de transferência falhou no Windows por ausência de `os.setxattr`. A ausência no Git não significa ausência do original.
+Os HTMLs originais de 24/10/2026 foram recuperados da Library da autora por materialização oficial em Linux, após incompatibilidade de metadados no helper Windows. Os bytes foram publicados na branch de recuperação, commit `6004896cec19052c649d4ed1077343a1b4dd5896`, e integrados via Git. A transferência está resolvida. [Originais, hashes e versões adaptadas](demo-scripts/README.md).
